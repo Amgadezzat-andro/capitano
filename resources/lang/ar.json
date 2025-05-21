@@ -1,0 +1,23 @@
+{
+    "No data found":"لا يوجد بيانات",
+    "Data deleted successfuly":"تم مسح البيانات بنجاح",
+    "Data updated successfuly":"تم تحديث البيانات بنجاح",
+    "Data created successfuly":"تم الاضافة بنجاح",
+    "enternal server error":"حدوث خطأ بالسرفر",
+    "email":"البريد الالكتروني",
+    "we will replay to you soon":"يسعدنا اتصالك وسوف نقوم بالرد عليك قريبا",
+    "Registration successful, Please check your email to verify your address ":" تم التسجيل بنجاح يرجي متابعه بريدك الالكتروني لتفعيل حسابك ",
+    "An error occure while trying to create user":"حدث خطأ برجاء المحاولة مرة أخري",
+    "Email has been verified successfully":"تم تفعيل حسابك بنجاح",
+    "Email verification failed , please try again later":"حدث خطأ في التفعيل الرجاء المحاولة مرة اخري",
+    "Token expired":"انتهت صلاحيه كود التفعيل برجاء اعاده انشاء كود التفعيل مرة اخري",
+    "Invalid token":"كود تفعيل خاطئ برجاء ادخال كود صحيح",
+    "Email has already been verified":"ان هذا البريد الالكتروني مفعل مسبقا",
+    "verification link sent successfully":"تم ارسال لينك التفعيل بنجاح",
+    "No email found":"لا يوجد بريد الكتروني مسجل بهذا الاسم",
+    "Admin blocked this account":"قام الادمن بغلق هذا الحساب",
+    "Invalid email or password or you must verify your email first":"ايميل المستخدم او كلمة المرور غير صحيحة او يجب عليك تفعيل حسابك اولا بكود التفعيل",
+    "Order Successfully Completed":"تم ارسال طلبك بنجاح وسوف نقوم بالرد عليك في اسرع وقت ممكن",
+    "you can verify your email now":"يمكنك تفعيل حسابك الان باخذ كود التفعيل",
+    "No product found":"لا يوجد منتج بهذا الاسم"
+}
