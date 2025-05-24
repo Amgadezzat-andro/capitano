@@ -34,19 +34,21 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 
-// Employee Routes
-Route::middleware(['auth:api', 'employee'])->group(function () {
+// !! Employee Routes
+Route::middleware(['employee'])->group(function () {
     Route::get('/employee/dashboard', function () {
         return response()->json(['message' => 'Employee Dashboard']);
     });
 });
 
-// Delivery Routes
-Route::middleware(['auth:api', 'delivery'])->group(function () {
+// !! Delivery Routes
+Route::middleware(['delivery'])->group(function () {
     Route::get('/delivery/orders', function () {
         return response()->json(['message' => 'Delivery Orders']);
     });
 });
+
+// !! Dashboard Routes
 Route::middleware(['admin'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('categories', CategoryController::class);
@@ -57,6 +59,8 @@ Route::middleware(['admin'])->group(function () {
     Route::apiResource('specifications',PanelingSpecificationController::class);
     Route::get('contact-us',[ContactUsController::class,'index']);
 });
+
+// !! Order Routes
 Route::get('orders',[OrderController::class,'getAllOrder']);
 Route::get('orders/{id}',[OrderController::class,'showOrderDashboard']);
 Route::delete('orders/{id}',[OrderController::class,'deleteOrderDashboard']);

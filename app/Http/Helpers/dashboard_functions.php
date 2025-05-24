@@ -17,7 +17,7 @@ if(!function_exists('deleteImage')){
 }
 if(!function_exists('getImagePathFromDirectory')){
 
- function getImagePathFromDirectory( $imageName , $directory = null , $defaultImage = 'default.svg'  ): string
+ function getImagePathFromDirectory( $imageName , $directory = null , $defaultImage = 'default-image.jpg'): string
  {
      $imagePath = public_path('/storage/Images'.'/' . $directory . '/' . $imageName);
 

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class StoreCategoryRequest extends FormRequest
+class StoreBrandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,9 +28,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'name'=>['required','string',new NotNumbersOnly()],
-            'image'=>['required','image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
-            'status'=>['required','integer','in:0,1']
-
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
