@@ -3,7 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Rules\NotNumbersOnly;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -29,5 +32,13 @@ class StoreCategoryRequest extends FormRequest
             'status'=>['required','integer','in:0,1']
 
         ];
+    }
+
+        protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'failed',
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }
