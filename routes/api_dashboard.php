@@ -47,7 +47,8 @@ Route::middleware(['auth:api', 'delivery'])->group(function () {
         return response()->json(['message' => 'Delivery Orders']);
     });
 });
-Route::middleware(['auth:api', 'admin'])->group(function () {
+Route::middleware(['admin'])->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('brands', BrandController::class);
     Route::apiResource('models',CarModelController::class);

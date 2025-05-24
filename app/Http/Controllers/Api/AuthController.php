@@ -35,6 +35,23 @@ class AuthController extends Controller
             'user' => auth()->user(),
         ]);
     }
+
+    public function logout()
+    {
+        try {
+            auth('api')->logout();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => __('Successfully logged out'),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => __('Failed to log out, please try again.'),
+            ], 500);
+        }
+    }
     public function register(RegisterRequest $request ){
     $customer = User::create([
                 'name'=>$request->validated('name'),

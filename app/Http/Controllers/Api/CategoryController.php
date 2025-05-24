@@ -19,8 +19,9 @@ class CategoryController extends Controller
 
         $categories = Category::all();
 
-        if ($categories->isEmpty())
+        if ($categories->isEmpty()){
             return $this->success(200,[], __("No data found"));
+        }
         return $this->success(200, data: $categories);
     }
     public function store(StoreCategoryRequest $request)

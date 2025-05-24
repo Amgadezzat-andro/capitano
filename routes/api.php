@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('\user\send\otp',[UserController::class,'register']);
+Route::get('user/send/otp',[UserController::class,'register']);
 
 Route::get('/all-categories',[CategoryController::class,'getAllCat']);
 Route::get('/all-brands',[BrandController::class,'getAllBrands']);
@@ -36,7 +36,7 @@ Route::get('/all-models',[CarModelController::class,'getAllModels']);
 Route::get('/products/order/{category_id}',[OrderController::class,'getAllProduct']);
 Route::get('/product/order/{product}',[OrderController::class,'getPeoductForOrder']);
 Route::get('/products/order/models/{brandId}',[OrderController::class,'getModelOrder']);
-Route::get('/conatct-us',[ContactUsController::class,'contactUs']);
+Route::get('/contact-us-admin',[ContactUsController::class,'contactUs']);
 Route::post('/Contact-Us',[ContactUsController::class,'contactUsForm']);
 Route::post('/makeOrder',[OrderController::class,'makeOrder'])->middleware('auth:api');
 Route::get('/products-by-category-id/{catId}',[PanelingController::class,'getProductByCatId']);
