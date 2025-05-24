@@ -47,7 +47,7 @@ Route::middleware(['auth:api', 'delivery'])->group(function () {
         return response()->json(['message' => 'Delivery Orders']);
     });
 });
-// Route::middleware(['auth:api', 'admin'])->group(function () {
+Route::middleware(['auth:api', 'admin'])->group(function () {
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('brands', BrandController::class);
     Route::apiResource('models',CarModelController::class);
@@ -55,7 +55,7 @@ Route::middleware(['auth:api', 'delivery'])->group(function () {
     Route::apiResource('panelings',PanelingController::class);
     Route::apiResource('specifications',PanelingSpecificationController::class);
     Route::get('contact-us',[ContactUsController::class,'index']);
-// });
+});
 Route::get('orders',[OrderController::class,'getAllOrder']);
 Route::get('orders/{id}',[OrderController::class,'showOrderDashboard']);
 Route::delete('orders/{id}',[OrderController::class,'deleteOrderDashboard']);

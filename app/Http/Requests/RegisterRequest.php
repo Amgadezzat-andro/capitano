@@ -5,7 +5,9 @@ namespace App\Http\Requests;
 use App\Rules\NotNumbersOnly;
 use App\Rules\PhoneNumbers;
 use App\Rules\StringOnly;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RegisterRequest extends FormRequest
 {
@@ -25,11 +27,19 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','string',new StringOnly()],
-            'mobile'=>['required','unique:users,mobile','numeric',new PhoneNumbers()],
-            'password'=>['required','string','min:8','confirmed'],
-            'email'=>['required','email','unique:users,email']
-            
+            'name' => ['required', 'string', new StringOnly()],
+            'mobile' => ['required', 'unique:users,mobile', 'numeric', new PhoneNumbers()],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => ['required', 'email', 'unique:users,email']
+
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'failed',
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

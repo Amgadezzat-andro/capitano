@@ -41,13 +41,13 @@ class AuthController extends Controller
                 'mobile'=>$request->validated('mobile'),
                 'email'=>$request->validated('email'),
                 'password'=>Hash::make($request->validated('password')),
-                
+
 
             ]);
             if ($customer) {
                 // dd($customer instanceof \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject);
-    
-                $this->service->sendVerificationlink($customer);
+
+                // $this->service->sendVerificationlink($customer);
                 // $token = auth('api')->login($customer);
                 return response()->json([
                     'status' => 'success',
@@ -67,14 +67,14 @@ class AuthController extends Controller
     }
     public function getToken(Request $request)
     {
-        
+
             return response()->json([
                 'status' => 'success',
                 'message' => __('you can verify your email now'),
                 'token' => $request->token,
                 'email' => $request->email
             ]);
-        
+
     }
     public function loginUser(LoginRequest $request)
     {
