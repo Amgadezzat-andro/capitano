@@ -46,7 +46,7 @@ class AuthController extends Controller
             ]);
             if ($customer) {
                 // dd($customer instanceof \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject);
-
+                // test for we
                 // $this->service->sendVerificationlink($customer);
                 // $token = auth('api')->login($customer);
                 return response()->json([
