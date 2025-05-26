@@ -24,19 +24,24 @@ class UpdatePanelingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
-           'link'=> [ 'required','string', 'url'],
-           'name'=>['required',
-           Rule::unique('panelings','name')->ignore($this->paneling)
-           ,'string',new NotNumbersOnly()],
+
+           'link'=> ['string', 'url'],
+           'name'=>['required','string',new NotNumbersOnly()],
            'description'=>['required','string',new NotNumbersOnly()],
            'category_id'=>['required','integer',
             Rule::exists('categories','id')->whereNull('deleted_at')
-            
+
             ],
            'status'=>['required','in:0,1'],
            'image'=>['image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
 
         ];
+    }
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new \Illuminate\Http\Exceptions\HttpResponseException(response()->json([
+            'status' => 'failed',
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

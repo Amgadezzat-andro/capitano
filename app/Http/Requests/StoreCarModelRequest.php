@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Rules\NotNumbersOnly;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class StoreCarModelRequest extends FormRequest
 {
@@ -23,7 +25,7 @@ class StoreCarModelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','unique:models,name','string',new NotNumbersOnly()],
+            'name'=>['required','string',new NotNumbersOnly()],
             'startYear'=>['required','integer'],
             'endYear'=>['required','integer','different:startYear'],
             'brand_id'=>['required','exists:brands,id','integer'],
@@ -31,5 +33,13 @@ class StoreCarModelRequest extends FormRequest
             'image_end_year'=>['required','image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
             'status'=>['required','integer','in:0,1']
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'failed',
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

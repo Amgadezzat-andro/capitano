@@ -19,10 +19,10 @@ class Paneling extends Model
     public static function boot()
     {
         parent::boot();
-        static::addGlobalScope('active',function (Builder $builder){
-                $builder->where('status',1);
-        });
-        
+        // static::addGlobalScope('active',function (Builder $builder){
+        //         $builder->where('status',1);
+        // });
+
     }
     public function getImageAttribute()
     {
@@ -42,7 +42,7 @@ class Paneling extends Model
     {
         return $this->hasMany(PanelingSpecification::class);
     }
-    
+
 
 
 }

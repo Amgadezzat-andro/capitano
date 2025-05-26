@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Rules\NotNumbersOnly;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StorePanelingRequest extends FormRequest
 {
@@ -25,7 +27,7 @@ class StorePanelingRequest extends FormRequest
     {
         return [
            'link'=> [ 'required','string', 'url'],
-            'name'=>['required','unique:panelings,name','string',new NotNumbersOnly()],
+            'name'=>['required','string',new NotNumbersOnly()],
             'description'=>['required','string',new NotNumbersOnly()],
             'category_id'=>['required','integer',
             Rule::exists('categories','id')->whereNull('deleted_at')
@@ -34,5 +36,13 @@ class StorePanelingRequest extends FormRequest
             'image'=>['required','image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
 
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'failed',
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

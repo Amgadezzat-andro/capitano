@@ -20,7 +20,7 @@ class ContactUsController extends Controller
             "facebook"=>"www.facebook.com",
             "tiktok"=>"www.tiktok.com",
             "snapchat"=>"www.snapchat.com",
-            
+
         ]);
     }
     public function contactUsForm(ContactUsRequest $request )
@@ -33,8 +33,9 @@ class ContactUsController extends Controller
     public function index()
     {
         $contacts = ContactUs::all();
-        if(!$contacts)
+        if(!$contacts) {
             return $this->success(200,[]);
+        }
         return $this->success(200,ContactUsResource::collection($contacts));
     }
 }

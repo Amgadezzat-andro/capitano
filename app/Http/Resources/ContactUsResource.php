@@ -24,4 +24,5 @@ class ContactUsResource extends JsonResource
             'created_at'=>$this->created_at
         ];
     }
+    
 }

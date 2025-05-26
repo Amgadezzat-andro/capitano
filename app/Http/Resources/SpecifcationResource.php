@@ -23,7 +23,7 @@ class SpecifcationResource extends JsonResource
             'price'=>$this->price,
             'brand_name'=>$this->brand->name ?? __("No data found"),
             'model_name'=>$this->model->name ?? __("No data found"),
-            'paneling_name'=>$this->paneling_name ?? __("No data found")
+            'paneling_name'=>$this->paneling->name ?? __("No data found")
         ];
     }
 }

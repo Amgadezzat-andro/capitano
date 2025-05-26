@@ -25,7 +25,7 @@ class OrderController extends Controller
     public function getPeoductForOrder(Paneling $product) {
         $product->load('specifications');
         $brands = Brand::where('status', 1)->get();
-        
+
         $result = collect([$product])->map(function ($product) {
             return [
                 'id' => $product->id,
@@ -42,7 +42,7 @@ class OrderController extends Controller
                 })
             ];
         });
-        
+
         $result['brands'] = $brands->map(function ($brand) {
             return [
                 'id' => $brand->id,
@@ -51,7 +51,7 @@ class OrderController extends Controller
             ];
         });
         return $this->success(200, $result);
-        
+
     }
     public function getAllProduct($catId)
     {
@@ -203,12 +203,13 @@ class OrderController extends Controller
             'paneling_ids.*.is_connect' => ['required', 'in:0,1'],
             'paneling_ids.*.model_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'note' => ['nullable', 'string'],
-            
+
         ]);
-    
+
+
         try {
             DB::beginTransaction();
-    
+
             // Calculate total price
             $totalPrice = 0;
             foreach ($validatedData['paneling_ids'] as $panelingData) {
@@ -217,7 +218,7 @@ class OrderController extends Controller
                     ->value('price');
                 $totalPrice += ($price * $panelingData['quantity']);
             }
-    
+
             // Create the order
             $order = Order::create([
                 'user_id' => auth()->user()->id,
@@ -226,13 +227,13 @@ class OrderController extends Controller
                 'total' => $totalPrice,
                 'address' => $validatedData['address'],
             ]);
-    
+
             // Process each paneling item
             foreach ($validatedData['paneling_ids'] as $panelingData) {
                 $uploadedImage = isset($panelingData['model_image'])
                     ? uploadImage($panelingData['model_image'], 'Orders')
                     : null;
-    
+
                 foreach ($panelingData['model_ids'] as $model) {
                     foreach ($panelingData['brand_ids'] as $brand) {
                         $panelingSpec = PanelingSpecification::where('paneling_id', $panelingData['id'])
@@ -241,11 +242,11 @@ class OrderController extends Controller
                             ->where('brand_id', $brand['id'])
                             ->with(['model:id,name', 'brand:id,name']) // Eager load model and brand
                             ->first();
-    
+
                         if (!$panelingSpec) {
                             throw new Exception("Specification not found for paneling ID: {$panelingData['id']} with Model ID: {$model['id']} and Brand ID: {$brand['id']}");
                         }
-    
+
                         PanelingOrder::create([
                             'order_id' => $order->id,
                             'paneling_id' => $panelingData['id'],
@@ -260,17 +261,17 @@ class OrderController extends Controller
                     }
                 }
             }
-    
+
             DB::commit();
-    
+
             return $this->success(200, __('Order Successfully Completed'));
         } catch (Exception $e) {
             DB::rollBack();
             return $this->failure(500, __($e->getMessage()));
         }
     }
-    
-    
+
+
     public function getAllOrder()
     {
         $orders = Order::all();
