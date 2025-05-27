@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PanelingSpecification extends Model
 {
-    use HasFactory; 
+    use HasFactory;
     protected $table = 'paneling_specifications';
     protected $guarded = [] ;
     protected $appends = ['price_after_vat'];
@@ -17,7 +17,7 @@ class PanelingSpecification extends Model
     ];
     public function paneling()
     {
-        return $this->belongsTo(paneling::class);
+        return $this->belongsTo(Paneling::class);
     }
     public function brand()
     {
