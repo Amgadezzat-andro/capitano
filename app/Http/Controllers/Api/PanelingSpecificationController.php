@@ -21,7 +21,6 @@ class PanelingSpecificationController extends Controller
         {
             return $this->success(200,[],__("No data found"));
         }
-        var_dump('here');
         return $this->success(200,SpecifcationResource::collection($specification));
     }
     public function store(SpecificationRequest $request)
