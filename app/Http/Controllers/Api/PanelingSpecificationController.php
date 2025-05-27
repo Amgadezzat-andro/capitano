@@ -17,11 +17,11 @@ class PanelingSpecificationController extends Controller
     public function index()
     {
         $specification = PanelingSpecification::all();
-        var_dump($specification);die;
         if($specification->isEmpty())
         {
             return $this->success(200,[],__("No data found"));
         }
+        var_dump('here');
         return $this->success(200,SpecifcationResource::collection($specification));
     }
     public function store(SpecificationRequest $request)
