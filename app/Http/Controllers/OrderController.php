@@ -49,7 +49,10 @@ class OrderController extends Controller
                         'model' => $spec->model->id,
                         'model_data'=>[
                             'name' => $spec->model->name,
-                            'image' => $spec->model->image
+                            'start_year'=>$spec->model->startYear,
+                            'end_year'=>$spec->model->endYear,
+                            'image_start_year' => $spec->model->image_start_year,
+                            'image_end_year' => $spec->model->image_end_year
                         ],
                         'type' => $spec->car_chairs,
                         'price' => $spec->price,
