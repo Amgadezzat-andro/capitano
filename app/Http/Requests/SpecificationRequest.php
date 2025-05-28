@@ -23,9 +23,9 @@ class SpecificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'paneling_id'=>['required','integer',Rule::exists('panelings','id')->whereNull('deleted_at')],
-            'model_id'=>['required','integer',Rule::exists('model', 'id')->whereNull('deleted_at')],
-            'brand_id'=>['required','integer',Rule::exists('brands','id')->whereNull('deleted_at')],
+            'paneling_id'=>['required','integer'],
+            'model_id'=>['required','integer'],
+            'brand_id'=>['required','integer'],
             'car_chairs'=>['required','string','in:2,3,5'],
             'price'=>['required','numeric'],
             'is_connect'=>['required','in:0,1']
