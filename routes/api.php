@@ -48,3 +48,4 @@ Route::get('customer/verify',[AuthController::class,'getToken']);
 Route::post('auth/customer/login',[AuthController::class,'loginUser']);
 Route::post('auth/resend-email-verification-link',[AuthController::class,'resendVerificationEmailLink']);
 
+Route::get('/product-info/{product_id}',[OrderController::class,'getProductInfo']);

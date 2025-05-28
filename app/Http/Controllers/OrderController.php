@@ -22,36 +22,45 @@ use Illuminate\Validation\Rule;
 class OrderController extends Controller
 {
     use JsonResponsable;
-    public function getPeoductForOrder(Paneling $product) {
-        $product->load('specifications');
-        $brands = Brand::where('status', 1)->get();
 
-        $result = collect([$product])->map(function ($product) {
+    public function getProductInfo(Paneling $product_id)
+    {
+        if (!$product_id->category) {
+            return $this->failure(404, __('This Product Is Not Assigned To Valid Category Or Its Category Deleted'));
+        }
+        $result = collect([$product_id])->map(function ($product) {
             return [
                 'id' => $product->id,
+                'category' => $product->category->id,
+                'category_data' => [
+                    'name' => $product->category->name,
+                    'image' => $product->category->image
+                ],
                 'image' => $product->image,
                 'description' => $product->description,
-                'car_type' => $product->specifications->map(function ($spec) {
+                'car_specifications' => $product->specifications->map(function ($spec) {
                     return [
                         'id' => $spec->id,
+                        'brand' => $spec->brand->id,
+                        'brand_data'=>[
+                            'name' => $spec->brand->name,
+                            'image' => $spec->brand->image
+                        ],
+                        'model' => $spec->model->id,
+                        'model_data'=>[
+                            'name' => $spec->model->name,
+                            'image' => $spec->model->image
+                        ],
                         'type' => $spec->car_chairs,
                         'price' => $spec->price,
                         'is_connect' => $spec->is_connect,
 
                     ];
-                })
+                }),
             ];
         });
 
-        $result['brands'] = $brands->map(function ($brand) {
-            return [
-                'id' => $brand->id,
-                'name' => $brand->name,
-                'image'=>$brand->image
-            ];
-        });
         return $this->success(200, $result);
-
     }
     public function getAllProduct($catId)
     {
@@ -109,72 +118,6 @@ class OrderController extends Controller
         }));
     }
 
-    // public function makeOrder(Request $request)
-    // {
-    //     $validatedData=$request->validate([
-    //         // 'color' => ['required', 'string', new NotNumbersOnly()],
-    //         'paneling_ids'=>['array'],
-    //         'paneling_ids.*.id' => [
-    //             'required_with:paneling_ids',
-    //             Rule::exists('panelings', 'id')->whereNotNull('deleted_at')
-    //         ],
-    //         'paneling_ids.*.quantity'=>['required_with:paneling_ids','min:1','integer'],
-    //         'address'=>['required','string',new NotNumbersOnly()],
-    //         'paneling_ids.*.car_type' => ['required', 'in:3,5,7'],
-    //         'paneling_ids.*.model_ids'=>['array'],
-    //         'paneling_ids.*.model_ids.*.id' => [
-    //             'required',
-    //             Rule::exists('models','id')->whereNotNull('deleted_at'),
-    //         ],
-    //         'paneling_ids.*.brand_ids'=>['array'],
-    //         'paneling_ids.*.brand_ids.*.id'=>['required',
-    //         Rule::exists('brands','id')->whereNotNull('deleted_at'),
-    //         ],
-    //         'paneling_ids.*.manufacutring_year'=>['required','integer'],
-    //         'name'=>['required','string'],
-    //         'mobile'=>['required',new PhoneNumbers()],
-    //         'paneling_ids.*.is_connect'=>['required','in:0,1'],
-    //         'paneling_ids.*.model_image'=>['image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
-    //         'note'=>['string']
-
-    //     ]);
-    //     if($request->hasFile('model_image'))
-    //     {
-    //         $validatedData['model_image']=uploadImage($request->file('model_image'),'Orders');
-    //     }
-    //     try{
-    //         DB::beginTransaction();
-    //         // Extract array of paneling IDs
-    //         $panelingIds = collect($validatedData['paneling_ids'])
-    //         ->pluck('id')
-    //         ->toArray();
-    //         $order = Order::create([
-    //             'user_id'=>auth()->user()->id,
-    //             'status'=>1,
-    //             'note'=>$validatedData['note'],
-    //             'total'=>PanelingSpecification::whereIn('paneling_id', $panelingIds)->sum('price'),
-    //             'address'=>$validatedData['address'],
-    //             'model_image'=>$validatedData['model_image']??null
-    //         ]);
-    //         foreach($panelingIds as $panelingId)
-    //         {
-    //             PanelingOrder::create([
-    //                 'order_id'=>$order->id,
-    //                 'paneling_id'=>$panelingId['id'],
-    //                 'quantity'=>$panelingId['quantity'],
-    //                 'cost'=>PanelingSpecification::where('paneling_id',$panelingId['id'])->where('car_chairs',$validatedData['car_type'])->value('price'),
-
-    //             ]);
-    //         }
-    //         DB::commit();
-    //         return $this->success(200,__("Order Successfully Completed"));
-    //     }catch(Exception $e)
-    //     {
-    //         return $this->failure(500,__($e->getMessage()));
-
-    //         DB::rollBack();
-    //     }
-    // }
     public function makeOrder(Request $request)
     {
         // Validate incoming data
