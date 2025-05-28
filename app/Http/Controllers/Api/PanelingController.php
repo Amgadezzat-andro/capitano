@@ -94,4 +94,18 @@ class PanelingController extends Controller
             return $imageName;
         }
     }
+
+    public function getAllPanelings()
+    {
+        $panelings = Paneling::where('status', 1)
+            ->whereNull('deleted_at')
+            ->get();
+
+        if ($panelings->isEmpty()) {
+            return $this->success(200, data: [], message: __("No data found"));
+        }
+
+        return $this->success(200, data: $panelings);
+    }
+
 }

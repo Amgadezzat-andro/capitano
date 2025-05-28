@@ -33,6 +33,8 @@ Route::get('user/send/otp',[UserController::class,'register']);
 Route::get('/all-categories',[CategoryController::class,'getAllCat']);
 Route::get('/all-brands',[BrandController::class,'getAllBrands']);
 Route::get('/all-models',[CarModelController::class,'getAllModels']);
+Route::get('/all-panelings', [PanelingController::class,'getAllPanelings']);
+
 Route::get('/products/order/{category_id}',[OrderController::class,'getAllProduct']);
 Route::get('/product/order/{product}',[OrderController::class,'getPeoductForOrder']);
 Route::get('/products/order/models/{brandId}',[OrderController::class,'getModelOrder']);
