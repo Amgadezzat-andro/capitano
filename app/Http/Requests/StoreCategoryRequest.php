@@ -28,7 +28,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'name'=>['required','string',new NotNumbersOnly()],
-            'image'=>['required','image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
+            'image'=>['required','image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048'],
             'status'=>['required','integer','in:0,1']
 
         ];

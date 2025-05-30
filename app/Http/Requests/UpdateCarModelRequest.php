@@ -32,8 +32,8 @@ class UpdateCarModelRequest extends FormRequest
             'startYear'=>['required','integer'],
             'endYear'=>['required','integer','different:startYear'],
             'brand_id'=>['required','integer',Rule::exists('brands','id')->whereNull('deleted_at')],
-            'image_start_year'=>['image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
-            'image_end_year'=>['image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
+            'image_start_year'=>['image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048'],
+            'image_end_year'=>['image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048'],
             'status'=>['in:0,1','integer']
         ];
     }

@@ -59,7 +59,7 @@ class BrandController extends Controller
              $brand = Brand::findOrFail($id);
              $data=$request->validate([
                  'name'=>['required','string',new NotNumbersOnly(),"unique:brands,name,$brand->id"],
-                 'image'=>['image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
+                 'image'=>['image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048'],
                  'status'=>['integer','in:0,1']
              ]);
 
@@ -79,7 +79,9 @@ class BrandController extends Controller
         try{
 
             $brand = Brand::findOrFail($id);
-            $brand->delete();
+            if($brand->delete()){
+                deleteImage($brand->image, "Brands");
+            }
             return $this->success(200,[],__("Data deleted successfuly"));
         }catch(ModelNotFoundException $e)
             {return $this->success(200,[],__("No data found"));}

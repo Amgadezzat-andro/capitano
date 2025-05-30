@@ -79,7 +79,9 @@ class PanelingController extends Controller
     {
         try {
             $paneling = Paneling::findOrFail($id);
-            $paneling->delete();
+            if($paneling->delete()) {
+                deleteImage($paneling->image, "Panelings");
+            }
             return $this->success(200, [], __("Data deleted successfuly"));
         } catch (ModelNotFoundException $e) {
             return $this->success(200, data: [], message: __("No data found"));

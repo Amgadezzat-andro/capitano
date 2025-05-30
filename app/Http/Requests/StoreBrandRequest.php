@@ -28,7 +28,7 @@ class StoreBrandRequest extends FormRequest
     {
         return [
             'name'=>['required','string',new NotNumbersOnly()],
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ];
     }
 

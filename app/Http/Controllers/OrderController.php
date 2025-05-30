@@ -147,7 +147,7 @@ class OrderController extends Controller
             'name' => ['required', 'string'],
             'mobile' => ['required', new PhoneNumbers()],
             'paneling_ids.*.is_connect' => ['required', 'in:0,1'],
-            'paneling_ids.*.model_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'paneling_ids.*.model_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp', 'max:2048'],
             'note' => ['nullable', 'string'],
 
         ]);

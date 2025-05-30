@@ -29,8 +29,8 @@ class StoreCarModelRequest extends FormRequest
             'startYear'=>['required','integer'],
             'endYear'=>['required','integer','different:startYear'],
             'brand_id'=>['required','exists:brands,id','integer'],
-            'image_start_year'=>['required','image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
-            'image_end_year'=>['required','image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
+            'image_start_year'=>['required','image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048'],
+            'image_end_year'=>['required','image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048'],
             'status'=>['required','integer','in:0,1']
         ];
     }

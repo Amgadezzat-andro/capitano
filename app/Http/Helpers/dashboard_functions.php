@@ -10,6 +10,7 @@ if(!function_exists('deleteImage')){
         $model = Str::ucfirst($model);
 
         if ($imageName != 'default.png'){
+            $imageName = basename($imageName);
             $path = "/Images/" . $model . '/' .$imageName;
             Storage::disk('public')->delete($path);
         }

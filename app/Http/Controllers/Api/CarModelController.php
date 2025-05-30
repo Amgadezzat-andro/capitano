@@ -70,6 +70,10 @@ class CarModelController extends Controller
     {
         try {
             $model = CarModel::findOrFail($id);
+            if($model->delete()){
+                deleteImage($model->image_start_year, "Models");
+                deleteImage($model->image_end_year, "Models");
+            }
             $model->delete();
             return $this->success(200, [], __("Data deleted successfuly"));
         } catch (ModelNotFoundException $e) {

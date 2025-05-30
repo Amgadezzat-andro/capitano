@@ -25,7 +25,7 @@ class UpdateCategoryRequest extends FormRequest
         $id= request()->route('category');
         return [
             'name'=>['required',"unique:categories,name,$id",'string',new NotNumbersOnly(),'unique:categories,name,except,id'],
-            'image'=>['image','mimes:jpeg,png,jpg,gif,svg','max:2048']
+            'image'=>['image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048']
         ];
     }
 }

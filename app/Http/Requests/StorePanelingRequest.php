@@ -33,7 +33,7 @@ class StorePanelingRequest extends FormRequest
             Rule::exists('categories','id')->whereNull('deleted_at')
             ],
             'status'=>['required','in:0,1'],
-            'image'=>['required','image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
+            'image'=>['required','image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048'],
 
         ];
     }

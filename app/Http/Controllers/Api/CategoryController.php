@@ -50,7 +50,7 @@ class CategoryController extends Controller
         $cat= Category::findOrFail($catID);
         $data=$request->validate([
             'name'=>['required','string',new NotNumbersOnly(),"unique:categories,name,$cat->id"],
-            'image'=>['image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
+            'image'=>['image','mimes:jpeg,png,jpg,gif,svg,webp','max:2048'],
             'status'=>['integer','in:0,1']
         ]);
         $data['image']=$this->updateImage($cat->image);
@@ -77,7 +77,9 @@ class CategoryController extends Controller
         try{
 
             $cat = Category::findOrFail($id);
-            $cat->delete();
+            if($cat->delete()){
+                deleteImage($cat->image, "Categories");
+            }
             return $this->success(200,[],__("Data deleted successfuly"));
         }catch(ModelNotFoundException $e)
             {return $this->success(200,[],__("No data found"));}
