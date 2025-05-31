@@ -17,7 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = Category::all();
+        $categories = Category::orderBy('id', 'desc')->get();
 
         if ($categories->isEmpty()){
             return $this->success(200,[], __("No data found"));

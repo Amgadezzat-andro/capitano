@@ -16,7 +16,7 @@ class BrandController extends Controller
      // Get all brands
      public function index()
      {
-         $brands = Brand::all();
+         $brands = Brand::orderBy('id', 'desc')->get();
 
          if($brands->isEmpty()) return $this->success(200,[],__("No data found"));
          return $this->success(200,data:$brands);

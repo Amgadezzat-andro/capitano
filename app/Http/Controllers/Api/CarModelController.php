@@ -16,7 +16,7 @@ class CarModelController extends Controller
     use JsonResponsable;
     public function index()
     {
-        $models = CarModel::all();
+        $models = CarModel::orderBy('id', 'desc')->get();
         if ($models->isEmpty()) {
             return $this->success(200, [], __("No data found"));
         }

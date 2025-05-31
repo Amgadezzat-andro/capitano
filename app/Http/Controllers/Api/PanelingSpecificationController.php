@@ -16,7 +16,7 @@ class PanelingSpecificationController extends Controller
     use JsonResponsable;
     public function index()
     {
-        $specification = PanelingSpecification::all();
+        $specification = PanelingSpecification::orderBy('id', 'desc')->get();
         if($specification->isEmpty())
         {
             return $this->success(200,[],__("No data found"));

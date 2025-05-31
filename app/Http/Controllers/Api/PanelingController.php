@@ -15,7 +15,7 @@ class PanelingController extends Controller
     use JsonResponsable;
     public function index()
     {
-        $panelings = Paneling::all();
+        $panelings = Paneling::orderBy('id', 'desc')->get();
 
         if ($panelings->isEmpty()) {
             return $this->success(200, data: [], message: __("No data found"));
