@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class SpecificationRequest extends FormRequest
 {
+    public $brands = [];
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,12 +24,15 @@ class SpecificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'paneling_id'=>['required','integer'],
-            'model_id'=>['required','integer'],
-            'brand_id'=>['required','integer'],
+            'paneling_id'=>['required','integer', Rule::exists('panelings','id')->whereNull('deleted_at')],
+            'model_id'=>['required','integer', Rule::exists('models', 'id')->whereNull('deleted_at')],
+            'brand_id'=>['integer'],
+            'brands' => ['required', 'array', 'min:1'],
+            'brands.*.id' => ['required', 'integer', Rule::exists('brands', 'id')->whereNull('deleted_at')],
             'car_chairs'=>['required','string','in:2,3,5'],
             'price'=>['required','numeric'],
-            'is_connect'=>['required','in:0,1']
+            'bag_price'=>['nullable','numeric'],
+            'is_connect'=>['nullable', Rule::in([0, 1])],
         ];
     }
         protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)

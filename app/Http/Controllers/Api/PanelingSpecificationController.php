@@ -25,13 +25,16 @@ class PanelingSpecificationController extends Controller
     }
     public function store(SpecificationRequest $request)
     {
+
         $data = $request->validated();
-        $specification = PanelingSpecification::create($data);
-        if(!$specification)
-        {
-            return $this->success(200,[],__("No data found"));
+        foreach ($data['brands'] as $brand) {
+            $newData = $data;
+            unset($newData['brands']);
+            $newData['brand_id'] = $brand['id'];
+            $specification = PanelingSpecification::create($newData);
+            $createdSpecs[] = $specification;
         }
-        return $this->success(200,$specification,__("Data created successfuly"));
+        return $this->success(200,$createdSpecs,__("Data created successfuly"));
     }
     public function update(UpdateSpecificationRequest $request, $id)
     {

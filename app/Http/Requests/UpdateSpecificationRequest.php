@@ -24,11 +24,12 @@ class UpdateSpecificationRequest extends FormRequest
     {
         return [
             'paneling_id'=>['required','integer',Rule::exists('panelings','id')->whereNull('deleted_at')],
-            'model_id'=>['required','integer',Rule::exists('model', 'id')->whereNull('deleted_at')],
+            'model_id'=>['required','integer',Rule::exists('models', 'id')->whereNull('deleted_at')],
             'brand_id'=>['required','integer',Rule::exists('brands','id')->whereNull('deleted_at')],
             'car_chairs'=>['required','string','in:2,3,5'],
             'price'=>['required','numeric'],
-            'is_connect'=>['required','in:0,1']
+            'bag_price'=>['nullable','numeric'],
+            'is_connect'=>['nullable','in:0,1']
         ];
     }
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
