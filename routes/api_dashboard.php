@@ -47,6 +47,13 @@ Route::middleware(['admin'])->group(function () {
     Route::apiResource('colors', ColorController::class);
     Route::apiResource('panelings', PanelingController::class);
     Route::apiResource('specifications', PanelingSpecificationController::class);
+   // Pgination for specifications
+    Route::get('specifications-paginate', [PanelingSpecificationController::class, 'GetAllPaginate']);
+    Route::get('brands-paginate', [BrandController::class, 'GetAllPaginate']);
+    Route::get('panelings-paginate', [PanelingController::class, 'GetAllPaginate']);
+    Route::get('categories-paginate', [CategoryController::class, 'GetAllPaginate']);
+    Route::get('models-paginate', [CarModelController::class, 'GetAllPaginate']);
+
     Route::get('contact-us-admin', [ContactUsController::class, 'index']);
     Route::get('orders', [OrderController::class, 'getAllOrder']);
     Route::get('orders/{id}', [OrderController::class, 'showOrderDashboard']);

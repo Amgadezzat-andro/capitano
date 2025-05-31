@@ -23,6 +23,25 @@ class CarModelController extends Controller
 
         return $this->success(200, ModelResource::collection($models));
     }
+        public function GetAllPaginate()
+    {
+        $perPage = 5;
+        $specification = CarModel::orderBy('id', 'desc')->paginate($perPage);
+
+        if ($specification->isEmpty()) {
+            return $this->success(200, [], __("No data found"));
+        }
+
+        return $this->success(200, [
+            'data' => ModelResource::collection($specification),
+            'pagination' => [
+                    'current_page' => $specification->currentPage(),
+                    'last_page' => $specification->lastPage(),
+                    'per_page' => $specification->perPage(),
+                    'total' => $specification->total(),
+                ]
+        ]);
+    }
     public function store(StoreCarModelRequest $request)
     {
         $data = $request->validated();

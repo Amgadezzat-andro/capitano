@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBrandRequest;
+use App\Http\Resources\BrandResource;
 use App\Models\Brand;
 use App\Rules\NotNumbersOnly;
 use App\Trait\JsonResponsable;
@@ -22,7 +23,25 @@ class BrandController extends Controller
          return $this->success(200,data:$brands);
      }
 
-     // Store a new brand
+    public function GetAllPaginate()
+    {
+        $perPage = 5;
+        $specification = Brand::orderBy('id', 'desc')->paginate($perPage);
+
+        if ($specification->isEmpty()) {
+            return $this->success(200, [], __("No data found"));
+        }
+
+        return $this->success(200, [
+            'data' => BrandResource::collection($specification),
+            'pagination' => [
+                    'current_page' => $specification->currentPage(),
+                    'last_page' => $specification->lastPage(),
+                    'per_page' => $specification->perPage(),
+                    'total' => $specification->total(),
+                ]
+        ]);
+    }
 
 
      public function store(StoreBrandRequest $request)

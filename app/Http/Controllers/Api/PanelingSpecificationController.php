@@ -17,11 +17,29 @@ class PanelingSpecificationController extends Controller
     public function index()
     {
         $specification = PanelingSpecification::orderBy('id', 'desc')->get();
-        if($specification->isEmpty())
-        {
-            return $this->success(200,[],__("No data found"));
+        if ($specification->isEmpty()) {
+            return $this->success(200, [], __("No data found"));
         }
-        return $this->success(200,SpecifcationResource::collection($specification));
+        return $this->success(200, SpecifcationResource::collection($specification));
+    }
+    public function GetAllPaginate()
+    {
+        $perPage = 5;
+        $specification = PanelingSpecification::orderBy('id', 'desc')->paginate($perPage);
+
+        if ($specification->isEmpty()) {
+            return $this->success(200, [], __("No data found"));
+        }
+
+        return $this->success(200, [
+            'data' => SpecifcationResource::collection($specification),
+            'pagination' => [
+                    'current_page' => $specification->currentPage(),
+                    'last_page' => $specification->lastPage(),
+                    'per_page' => $specification->perPage(),
+                    'total' => $specification->total(),
+                ]
+        ]);
     }
     public function store(SpecificationRequest $request)
     {
@@ -34,38 +52,36 @@ class PanelingSpecificationController extends Controller
             $specification = PanelingSpecification::create($newData);
             $createdSpecs[] = $specification;
         }
-        return $this->success(200,$createdSpecs,__("Data created successfuly"));
+        return $this->success(200, $createdSpecs, __("Data created successfuly"));
     }
     public function update(UpdateSpecificationRequest $request, $id)
     {
         $data = $request->validated();
-        try{
+        try {
             $specification = PanelingSpecification::findOrFail($id);
             $specification->update($data);
-            return $this->success(200,new SpecifcationResource($specification),__("Data updated successfuly"));
-        }catch(ModelNotFoundException $e){
-            return $this->success(200,[],__("No data found"));
+            return $this->success(200, new SpecifcationResource($specification), __("Data updated successfuly"));
+        } catch (ModelNotFoundException $e) {
+            return $this->success(200, [], __("No data found"));
         }
     }
     public function show($id)
     {
-        try{
+        try {
             $specification = PanelingSpecification::findOrFail($id);
-            return $this->success(200,new SpecifcationResource($specification));
-        }catch(ModelNotFoundException $e)
-        {
-            return $this->success(200,[],__("No data found"));
+            return $this->success(200, new SpecifcationResource($specification));
+        } catch (ModelNotFoundException $e) {
+            return $this->success(200, [], __("No data found"));
         }
     }
     public function destroy($id)
     {
-        try{
+        try {
             $specification = PanelingSpecification::findOrFail($id);
             $specification->delete();
-            return $this->success(200,__("Data deleted successfuly"));
-        }catch(ModelNotFoundException $e)
-        {
-            return $this->success(200,[],__("No data found"));
+            return $this->success(200, __("Data deleted successfuly"));
+        } catch (ModelNotFoundException $e) {
+            return $this->success(200, [], __("No data found"));
         }
     }
 }

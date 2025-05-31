@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePanelingRequest;
 use App\Http\Requests\UpdatePanelingRequest;
+use App\Http\Resources\PanelingResource;
 use App\Models\Paneling;
 use App\Trait\JsonResponsable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -23,6 +24,25 @@ class PanelingController extends Controller
 
         return $this->success(200, data: $panelings);
 
+    }
+        public function GetAllPaginate()
+    {
+        $perPage = 5;
+        $specification = Paneling::orderBy('id', 'desc')->paginate($perPage);
+
+        if ($specification->isEmpty()) {
+            return $this->success(200, [], __("No data found"));
+        }
+
+        return $this->success(200, [
+            'data' => PanelingResource::collection($specification),
+            'pagination' => [
+                    'current_page' => $specification->currentPage(),
+                    'last_page' => $specification->lastPage(),
+                    'per_page' => $specification->perPage(),
+                    'total' => $specification->total(),
+                ]
+        ]);
     }
     public function getProductByCatId($catId)
     {
